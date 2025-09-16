@@ -84,7 +84,6 @@ footer {
     background-color: #fff;
     margin: 20px auto;
     border-radius: 8px;
-    /* Esto es un placeholder. Cuando insertes la imagen, puedes quitar el background-color */
 }
 
 /* Gráfico Explicativo */
@@ -176,7 +175,6 @@ footer {
     font-size: 0.9em;
     padding: 5px 0;
     border-bottom: 1px solid #333;
-
 }
 
 /* ==================================
@@ -185,51 +183,42 @@ footer {
 @media (max-width: 600px) {
     
     header {
-        padding: 30px 10px; /* Reducir padding del encabezado */
+        padding: 30px 10px; 
     }
 
     h1 {
-        font-size: 2em; /* Reducir tamaño de título principal */
+        font-size: 2em; 
     }
 
     h2 {
-        font-size: 1.5em; /* Reducir tamaño de subtítulos */
+        font-size: 1.5em; 
     }
 
     main {
-        padding: 0 10px; /* Reducir padding lateral en el contenido */
+        padding: 0 10px; 
     }
 
     section {
-        padding: 20px 15px; /* Reducir padding de las secciones */
+        padding: 20px 15px; 
         margin-bottom: 20px;
     }
 
     .pozo-box {
-        font-size: 2.5em; /* Reducir tamaño del monto del pozo */
+        font-size: 2.5em; 
         min-width: 200px;
     }
 
     .bar-chart {
-        padding: 0 0px; /* Eliminar padding interno del gráfico */
+        padding: 0 0px; 
     }
 
     .boton-pagar {
-        padding: 12px 20px; /* Reducir el tamaño del botón de pago */
+        padding: 12px 20px; 
         font-size: 1em;
     }
 
     .qr-code {
         width: 150px;
-        height: 150px; /* Reducir el tamaño del QR */
+        height: 150px; 
     }
-
-    /* Ajuste de tipografía para el formulario en mantenimiento */
-    .container h1 {
-        font-size: 2em;
-    }
-    .container p {
-        font-size: 1em;
-    }
-
 }
