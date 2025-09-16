@@ -1,0 +1,179 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #1f1f1f;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom: 2px solid #333;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #00ff99; /* Verde Neón */
+    margin-bottom: 5px;
+}
+
+h2 {
+    font-size: 1.8em;
+    color: #00ff99;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-top: 40px;
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+section {
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pozo-box, .participar-box, .transparencia-box, .resultados-box {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pozo-box {
+    font-size: 3em;
+    font-weight: bold;
+    color: #121212;
+    background-color: #00ff99;
+    padding: 20px;
+    border-radius: 8px;
+    display: inline-block;
+    min-width: 250px;
+}
+
+.small-text {
+    font-size: 0.9em;
+    color: #999;
+    margin-top: 10px;
+}
+
+.highlight {
+    color: #ff6666; /* Color de Resalte / Advertencia */
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #333;
+    color: #666;
+    font-size: 0.8em;
+}
+
+/* Estilos para el QR y el gráfico */
+.qr-code {
+    width: 200px;
+    height: 200px;
+    background-color: #fff;
+    margin: 20px auto;
+    border-radius: 8px;
+    /* Esto es un placeholder. Cuando insertes la imagen, puedes quitar el background-color */
+}
+
+/* Gráfico Explicativo */
+.grafico-explicativo {
+    margin-top: 40px;
+    background-color: #2a2a2a;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.grafico-explicativo h3 {
+    color: #00ff99;
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.bar-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 0 20px;
+}
+
+.bar {
+    text-align: center;
+    color: #121212;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    width: 100%;
+    max-width: 400px;
+    transition: all 0.3s ease;
+}
+
+.bar-inversion {
+    background-color: #ff6666; 
+}
+
+.bar-ganancia {
+    background-color: #00ff99; 
+    box-shadow: 0 0 10px #00ff99;
+}
+
+/* Estilo para el botón de pago */
+.boton-pagar {
+    display: inline-block;
+    background-color: #f3ba2f; /* Color de Binance */
+    color: #121212;
+    padding: 15px 30px;
+    margin: 20px 0;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    box-shadow: 0 4px 15px rgba(243, 186, 47, 0.4);
+}
+
+.boton-pagar:hover {
+    background-color: #ffc950;
+    transform: translateY(-2px);
+}
+
+.boton-pagar:active {
+    transform: translateY(0);
+}
+
+/* Lista de Aportes */
+#lista-participantes {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
+    margin-top: 15px;
+}
+
+#lista-participantes ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#lista-participantes li {
+    font-family: monospace; 
+    font-size: 0.9em;
+    padding: 5px 0;
+    border-bottom: 1px solid #333;
+}
