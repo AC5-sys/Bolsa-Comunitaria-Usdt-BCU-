@@ -3,58 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pozo Comunitario USDT | Accede a una Recompensa x50</title>
+    <title>Bolsa Comunitaria USDT | Accede a una Recompensa</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body onunload="javascript:window.scrollTo(0,0);">
 
     <header>
-        <h1>Pozo Comunitario USDT ✨</h1>
-        <p>Tu oportunidad de acceder a una gran recompensa con solo 1 USDT en la red TRC-20.</p>
+        <h1>Bolsa Comunitaria USDT ✨</h1>
+        <p>Tu oportunidad de acceder a una gran recompensa con solo 1 USDT.</p>
     </header>
 
     <main>
         <section id="pozo-acumulado">
-            <h2>Bote Acumulado</h2>
+            <h2>Bolsa Acumulada</h2>
             <div class="pozo-box">
                 <span id="pozo-cantidad">0.00</span> USDT
             </div>
-            <p class="small-text">(El 50% del Bote va para el Participante Elegido y el 50% para la Operación del Evento)</p>
+            
+            <p id="bolsa-estado-inicial" class="small-text">
+                (La **Bolsa** se acumulará con cada pago de 1 USDT. ¡Sé el primero en hacer que esta cifra crezca!)
+            </p>
+            <p class="small-text">
+                (El 50% de la **Bolsa** acumulada pertenecerá al **Participante Elegido** el resto es para el sostenimiento de la web además de proyectos futuros)
+            </p>
 
             <div class="grafico-explicativo">
-                <h3>Potencial de Recompensa (Ej. 100 Participantes)</h3>
-                <p>Al acceder con una **Cuota Única de 1 USDT**, un solo participante puede multiplicar su aporte por <span class="highlight">50 veces</span>.</p>
+                <h3 id="potencial-titulo">Potencial de Recompensa: Calculando...</h3> 
+                
+                <p>Cada pago de **1 USDT** te da una entrada para ganar; cuantos más realices, más chances tendrás de ser elegido.</p> 
+                
                 <div class="bar-chart">
-                    <div class="bar bar-inversion">1 USDT (Aporte Único)</div>
-                    <div class="bar bar-ganancia">50 USDT (Recompensa Potencial)</div>
+                    <div class="bar bar-inversion">1 USDT (Costo por Participación)</div>
+                    <div id="recompensa-potencial" class="bar bar-ganancia">?? USDT (Recompensa Potencial)</div>
                 </div>
             </div>
+        </section>
+
+        <section id="cuenta-regresiva">
+            <h2>Tiempo Restante para el Cierre Semanal</h2>
+            <div id="countdown-timer" class="pozo-box">
+                --d --h --m --s
+            </div>
+            <p class="small-text highlight">El cierre es automático: todos los viernes a las 20:00 UTC.</p>
         </section>
 
         <section id="participar">
             <h2>Cómo Participar y Bases del Evento</h2>
             <div class="participar-box">
-                <p>Haz clic en el botón para acceder al **pago de 1 USDT** a través de Binance Pay. Es rápido, seguro y la comisión de red se gestiona automáticamente.</p>
                 
-                <a href="PLACEHOLDER_LINK_DE_BINANCE_PAY" target="_blank" class="boton-pagar">
-                    Pagar 1 USDT con Binance Pay
-                </a>
-                
-                <div class="qr-code">
-                     
+                <div id="closed-message" style="display: none;">
+                    <h3 class="highlight" style="font-size: 1.5em;">❌ Participación Cerrada ❌</h3>
+                    <p>¿Quién será el ganador? paciencia… estamos seleccionando al **Participante Elegido** y podrías ser tú, los resultados se publicarán el domingo.</p>
+                    <p class="small-text">Los aportes realizados a partir de ahora no serán considerados, espera a que abra la **Bolsa** para volver a participar.</p>
                 </div>
 
-                <p class="small-text">Tu dirección de billetera será tu identificador único en el Pozo.</p>
+                <div id="payment-elements">
+                    <p>Haz clic en el botón o escanea el QR para acceder al **pago de 1 USDT** a través de Binance Pay.</p>
+                    
+                    <a href="https://s.binance.com/3KgUzgQP" target="_blank" class="boton-pagar">
+                        Pagar 1 USDT con Binance Pay
+                    </a>
+                    
+                    <div class="qr-code">
+                        <img src="qr-binance.png" alt="Código QR de Binance Pay para 1 USDT CriptoEventos" style="width: 100%; height: 100%; border-radius: 8px;">
+                    </div>
+
+                    <p class="small-text">Cada pago genera un **Número de Transacción** único que se convierte en una entrada a la **Bolsa**.</p>
+                </div>
+
             </div>
         </section>
 
         <section id="transparencia">
-            <h2>Transparencia y Lista de Aportes</h2>
+            <h2>Transparencia y Entradas</h2>
             <div class="transparencia-box">
-                <p>Todas las transacciones son públicas en la blockchain. Puedes verificar tu **Aporte** en la siguiente lista.</p>
+                <p>Cada participación de 1 USDT genera un **ID de Transacción** único (equivalente al hash de la Blockchain de Binance). No existe un vínculo de verificación público por seguridad, pero aseguramos la transparencia de esta forma:</p>
+                
+                <ol style="padding-left: 25px; margin-top: 10px; text-align: left;">
+                    <li>**Verifica tu ID:** Inicia sesión en tu cuenta de Binance, ve a tu **Historial de Pagos (Binance Pay)** y busca la transacción de 1 USDT.</li>
+                    <li>**Compara:** Compara el **ID de Transacción** de tu historial con uno de los IDs listados a continuación.</li>
+                    <li>**¡Tu Entrada es Válida!** Si el código coincide, tu entrada está registrada correctamente para el sorteo semanal.</li>
+                </ol>
                 <div id="lista-participantes">
                     </div>
             </div>
@@ -63,10 +95,34 @@
         <section id="resultados">
             <h2>Selección del Ganador</h2>
             <div class="resultados-box">
-                <p>El Participante Elegido será seleccionado cuando el Bote alcance **100 USDT** o al final de la semana, lo que ocurra primero.</p>
+                <p>El **Participante Elegido** será seleccionado semanalmente después de la hora de cierre del viernes. Los resultados grabados en video se publicarán el domingo.</p>
+                
                 <div id="ganador">
-                    <p class="small-text">Aquí se publicará la dirección del Participante Elegido y el hash de la transacción de transferencia del premio.</p>
+                    
+                    <p id="resultado-pendiente">Aquí se publicará el resultado.</p>
+                    
+                    <a href="TU_LINK_REAL_DE_YOUTUBE_AQUI" target="_blank" id="youtube-button-publicado" class="boton-youtube"> 
+                        🎥 Ver Video de la Selección (Domingo)
+                    </a> 
+                    
                 </div>
+            </div>
+        </section>
+
+        <section id="ideas">
+            <h2>📢 ¿Tienes una Idea o Propuesta?</h2>
+            <div class="ideas-box">
+                <p>Valoramos la opinión de la comunidad. Si tienes una idea para mejorar la **Bolsa**, un proyecto futuro o cualquier sugerencia, envíanosla directamente a través de nuestro formulario.</p>
+                
+                <iframe 
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSfiBe3jBu1HxZpArTIsQ5mngiMi1YIJIFu1Pw7PYOHRB-f_3A/viewform?embedded=true" 
+                    width="100%" 
+                    height="600" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0">
+                    Cargando…
+                </iframe>
             </div>
         </section>
     </main>
