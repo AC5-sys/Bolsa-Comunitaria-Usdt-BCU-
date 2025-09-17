@@ -1,224 +1,209 @@
+/*
+    Bolsa Comunitaria USDT - Style Sheet
+    Estilos modernos basados en Binance/Crypto (Dark Mode) - ALINEACIÓN CENTRADA
+*/
+
+/* --- Globales y Reset --- */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #121212;
-    color: #e0e0e0;
     margin: 0;
     padding: 0;
+    background-color: #1a1a2e;
+    color: #ffffff;
     line-height: 1.6;
-}
-
-header {
-    background-color: #1f1f1f;
-    padding: 40px 20px;
-    text-align: center;
-    border-bottom: 2px solid #333;
-}
-
-h1 {
-    font-size: 2.5em;
-    color: #00ff99; /* Verde Neón */
-    margin-bottom: 5px;
-}
-
-h2 {
-    font-size: 1.8em;
-    color: #00ff99;
-    border-bottom: 2px solid #333;
-    padding-bottom: 10px;
-    margin-top: 40px;
+    text-align: center; /* Centrado global */
 }
 
 main {
-    max-width: 800px;
+    max-width: 900px;
     margin: 20px auto;
     padding: 0 20px;
 }
 
-section {
-    background-color: #1e1e1e;
-    padding: 30px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+h1, h2, h3 {
+    color: #f3ba2f;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-.pozo-box, .participar-box, .transparencia-box, .resultados-box {
+h1 {
+    font-size: 2.5em;
+    padding-top: 20px;
+}
+
+p {
+    margin-bottom: 10px;
+    text-align: center; /* Centrado de párrafos */
+}
+
+/* --- Header (Encabezado) --- */
+header {
     text-align: center;
-    margin-top: 20px;
+}
+
+/* --- Componentes --- */
+section {
+    background-color: #2c2c44;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 .pozo-box {
+    text-align: center;
     font-size: 3em;
-    font-weight: bold;
-    color: #121212;
-    background-color: #00ff99;
-    padding: 20px;
+    font-weight: 700;
+    color: #00ff99;
+    padding: 15px 0;
+    border: 2px solid #3a3a5e;
     border-radius: 8px;
-    display: inline-block;
-    min-width: 250px;
+    margin-bottom: 15px;
+}
+
+.highlight {
+    color: #f3ba2f;
+    font-weight: 700;
 }
 
 .small-text {
     font-size: 0.9em;
-    color: #999;
-    margin-top: 10px;
-}
-
-.highlight {
-    color: #ff6666; /* Color de Resalte / Advertencia */
-    font-weight: bold;
-}
-
-footer {
+    color: #cccccc;
     text-align: center;
-    padding: 20px;
-    border-top: 1px solid #333;
-    color: #666;
-    font-size: 0.8em;
 }
 
-/* Estilos para el QR y el gráfico */
+/* --- Botones --- */
+.boton-pagar, .boton-youtube {
+    display: block;
+    margin: 15px auto; /* Centra el bloque del botón */
+    padding: 15px;
+    width: 90%; 
+    max-width: 400px; 
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.1s;
+    font-size: 1.1em;
+}
+
+.boton-pagar {
+    background-color: #f3ba2f;
+    color: #1a1a2e;
+    box-shadow: 0 4px #c29524;
+}
+
+.boton-pagar:hover {
+    background-color: #ffe082;
+    transform: translateY(-2px);
+    box-shadow: 0 6px #c29524;
+}
+
+.boton-youtube {
+    background-color: #ff0000;
+    color: #ffffff;
+    box-shadow: 0 4px #cc0000;
+}
+
+.boton-youtube:hover {
+    background-color: #ff3333;
+    transform: translateY(-2px);
+    box-shadow: 0 6px #cc0000;
+}
+
+/* --- QR Code --- */
 .qr-code {
+    text-align: center;
+    margin: 20px auto;
     width: 200px;
     height: 200px;
-    background-color: #fff;
-    margin: 20px auto;
-    border-radius: 8px;
+    border: 4px solid #f3ba2f;
+    border-radius: 12px;
 }
 
-/* Gráfico Explicativo */
+.qr-code img {
+    display: block;
+}
+
+/* --- Gráfico Explicativo --- */
 .grafico-explicativo {
-    margin-top: 40px;
-    background-color: #2a2a2a;
-    padding: 25px;
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #3a3a5e;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.grafico-explicativo h3 {
-    color: #00ff99;
-    font-size: 1.4em;
-    margin-bottom: 20px;
-    text-align: center;
+    text-align: center; 
 }
 
 .bar-chart {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    padding: 0 20px;
-}
-
-.bar {
-    text-align: center;
-    color: #121212;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    width: 100%;
-    max-width: 400px;
-    transition: all 0.3s ease;
-}
-
-.bar-inversion {
-    background-color: #ff6666; 
-}
-
-.bar-ganancia {
-    background-color: #00ff99; 
-    box-shadow: 0 0 10px #00ff99;
-}
-
-/* Estilo para el botón de pago */
-.boton-pagar {
-    display: inline-block;
-    background-color: #f3ba2f; /* Color de Binance */
-    color: #121212;
-    padding: 15px 30px;
-    margin: 20px 0;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.2em;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    box-shadow: 0 4px 15px rgba(243, 186, 47, 0.4);
-}
-
-.boton-pagar:hover {
-    background-color: #ffc950;
-    transform: translateY(-2px);
-}
-
-.boton-pagar:active {
-    transform: translateY(0);
-}
-
-/* Lista de Aportes */
-#lista-participantes {
-    background-color: #2a2a2a;
-    padding: 15px;
-    border-radius: 6px;
-    max-height: 300px;
-    overflow-y: auto;
-    text-align: left;
+    gap: 5px;
     margin-top: 15px;
 }
 
-#lista-participantes ul {
-    list-style-type: none;
-    padding-left: 0;
+.bar {
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    color: #1a1a2e;
+    text-align: center;
+}
+
+.bar-inversion {
+    background-color: #f3ba2f;
+}
+
+.bar-ganancia {
+    background-color: #00ff99;
+    color: #1a1a2e;
+}
+
+/* --- Lista de Participantes (Transparencia) --- */
+#lista-participantes {
+    margin-top: 15px;
+    background-color: #1a1a2e;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px dashed #3a3a5e;
+    max-height: 400px;
+    overflow-y: auto;
+    font-size: 0.9em;
+    text-align: left; /* La lista de IDs DEBE estar alineada a la izquierda */
+}
+
+#lista-participantes ol {
+    list-style-type: decimal;
 }
 
 #lista-participantes li {
-    font-family: monospace; 
-    font-size: 0.9em;
-    padding: 5px 0;
-    border-bottom: 1px solid #333;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-bottom: 1px dotted #3a3a5e;
+    overflow-wrap: break-word;
 }
 
-/* ==================================
-   Media Queries para Dispositivos Móviles
-   ================================== */
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: #777777;
+    border-top: 1px solid #3a3a5e;
+}
+
+/* --- Responsive Design --- */
 @media (max-width: 600px) {
-    
-    header {
-        padding: 30px 10px; 
-    }
-
     h1 {
-        font-size: 2em; 
-    }
-
-    h2 {
-        font-size: 1.5em; 
-    }
-
-    main {
-        padding: 0 10px; 
-    }
-
-    section {
-        padding: 20px 15px; 
-        margin-bottom: 20px;
+        font-size: 2em;
     }
 
     .pozo-box {
-        font-size: 2.5em; 
-        min-width: 200px;
-    }
-
-    .bar-chart {
-        padding: 0 0px; 
-    }
-
-    .boton-pagar {
-        padding: 12px 20px; 
-        font-size: 1em;
+        font-size: 2.5em;
     }
 
     .qr-code {
         width: 150px;
-        height: 150px; 
+        height: 150px;
     }
 }
