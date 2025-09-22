@@ -4,24 +4,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // *** SECCIÓN DE CONFIGURACIÓN DE DATOS - SOLO EDITAR AQUÍ ***
     // =========================================================
 
-    const CLOSING_DAY = 5;      // Viernes (0=Domingo, 5=Viernes)
-    const CLOSING_HOUR = 20;    // 20:00 (8 PM) UTC (Hora Universal Coordinada)
-    const COSTO_POR_ENTRADA = 1.00; 
+    const ENTRADAS_FILE = 'entradas.json'; 
+    
+    // CAMBIO DE NOMBRE: Costo por Entrada -> Donación Mínima
+    const DONACION_MINIMA = 1.00; 
+    
     const RECOMPENSA_PORCENTAJE = 0.50; 
-
-    // AÑADE LOS ID DE TRANSACCIÓN / PAGO DE BINANCE aquí.
-    // CADA LÍNEA CON UN ID REPRESENTA UNA ENTRADA DE 1 USDT.
-    const entradas_txid = [
-        // EJEMPLO CON 5 ENTRADAS:
-        "477D8H934983HD74892H7K21L4G0E", 
-        "28H4G0E9K21L4G0E477D8H934983H",
-        "L4G0E477D8H934983HD74892H7K21",
-        "9K21L4G0E477D8H934983HD74892H",
-        "H934983HD74892H7K21L4G0E477D8" // ¡La última NO lleva coma!
-    ];
-
+    
+    // Horarios (Mantenidos en UTC)
+    const CLOSING_DAY = 5;      
+    const CLOSING_HOUR = 20;    
+    const OPENING_DAY = 1;      
+    const OPENING_HOUR = 0;     
+    
     // =========================================================
-    // *** FIN DE CONFIGURACIÓN - NO EDITAR NADA DE AQUÍ ABAJO ***
+    // *** FIN DE CONFIGURACIÓN ***
     // =========================================================
     
     // --- DECLARACIÓN DE CONSTANTES Y ELEMENTOS ---
@@ -31,140 +28,248 @@ document.addEventListener('DOMContentLoaded', () => {
     const paymentElements = document.getElementById('payment-elements');
     const closedMessage = document.getElementById('closed-message');
     const bolsaEstadoInicialElement = document.getElementById('bolsa-estado-inicial');
-    
     const resultadoPendienteElement = document.getElementById('resultado-pendiente');
     const youtubeButtonElement = document.getElementById('youtube-button-publicado'); 
-    
     const potencialTitulo = document.getElementById('potencial-titulo');
     const recompensaPotencialElement = document.getElementById('recompensa-potencial');
+    const totalEntradasHTMLElem = document.getElementById('total-entradas-html');
 
-    // --- CÁLCULO AUTOMÁTICO DE DATOS ---
-    const totalEntradas = entradas_txid.length;
-    const bolsaAcumulada = (totalEntradas * COSTO_POR_ENTRADA).toFixed(2); 
-    const recompensaGanador = (totalEntradas * COSTO_POR_ENTRADA * RECOMPENSA_PORCENTAJE).toFixed(2); 
-
-
-    // --- FUNCIÓN DE CÁLCULO DE FECHA DE CIERRE ---
-    function getNextClosingTime() {
-        const now = new Date();
-        const date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMilliseconds()));
-        
-        let daysToAdd = (CLOSING_DAY - date.getUTCDay());
-        
-        if (date.getUTCDay() === CLOSING_DAY && date.getUTCHours() >= CLOSING_HOUR) {
-            daysToAdd += 7; 
-        } else if (daysToAdd < 0) {
-            daysToAdd += 7; 
-        }
-
-        date.setUTCDate(date.getUTCDate() + daysToAdd);
-        date.setUTCHours(CLOSING_HOUR, 0, 0, 0);
-        
-        return date.getTime();
-    }
+    // --- VARIABLES GLOBALES PARA DATOS CALCULADOS ---
+    let entradas_txid = [];
+    let totalEntradas = 0;
+    let bolsaAcumulada = 0;
+    let incentivoGanador = 0; 
     
-    const targetDate = getNextClosingTime();
+    // --- FUNCIÓN PARA FORMATO ESTÉTICO (K, M) ---
+    function formatBolsaAmount(num) {
+        const standardFormatter = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
 
-
-    // --- FUNCIÓN DE ESTADO (CERRADO/ABIERTO) ---
-    function updatePozoState(distance) {
-        if (distance <= 0) {
-            paymentElements.style.display = 'none';
-            closedMessage.style.display = 'block';
-            countdownTimerElement.innerHTML = "¡BOLSA CERRADA! Seleccionando...";
-            return true;
-        } else {
-            paymentElements.style.display = 'block';
-            closedMessage.style.display = 'none';
-            return false;
+        if (Math.abs(num) < 1000) {
+            return standardFormatter.format(num);
         }
+
+        const SI_POSTFIXES = ["", "K", "M", "B", "T"]; 
+        const tier = Math.floor(Math.log10(Math.abs(num)) / 3);
+
+        if (tier === 0) {
+             return standardFormatter.format(num); 
+        }
+
+        const postfix = SI_POSTFIXES[tier];
+        const tierScale = Math.pow(10, tier * 3);
+        const scaled = num / tierScale;
+
+        return scaled.toFixed(scaled < 100 ? 1 : 0) + postfix;
     }
 
-
-    // --- LÓGICA DE CUENTA REGRESIVA ---
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
-
-        const isClosed = updatePozoState(distance);
-        if (isClosed) {
-            clearInterval(countdownInterval);
-            return;
-        }
-
+    // --- FUNCIONES DE UTILIDAD ---
+    
+    function formatDistance(distance) {
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        countdownTimerElement.innerHTML = 
-            `${String(days).padStart(2, '0')}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
+        
+        return `${String(days).padStart(2, '0')}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
     }
-
-    // --- LÓGICA DE VISIBILIDAD DE RESULTADOS ---
-    if (resultadoPendienteElement && youtubeButtonElement) {
-        if (resultadoPendienteElement.style.display !== 'none') {
-            youtubeButtonElement.style.display = 'none';
-        } else {
-            youtubeButtonElement.style.display = 'inline-block';
-        }
-    }
-
-    // --- INICIALIZACIÓN DE DATOS EN PANTALLA ---
-
-    if (totalEntradas === 0) {
-        
-        bolsaElement.textContent = "0.00"; 
-        bolsaElement.style.fontSize = '3em'; 
-
-        potencialTitulo.textContent = `Potencial de Recompensa: 0.50 USDT (con la primera entrada)`;
-        recompensaPotencialElement.textContent = `0.50 USDT (Potencial Inicial)`;
-        
-        if (bolsaEstadoInicialElement) {
-             bolsaEstadoInicialElement.innerHTML = "(¡Sé el **primer participante**! Tu aporte inicia la bolsa y convierte este 0.50 USDT en una realidad. La bolsa crece con cada pago.)";
-             bolsaEstadoInicialElement.style.color = '#00ff99';
-        }
-        
-        listaParticipantesElement.innerHTML = `
-            <p style="text-align: center;">
-                <span class="highlight" style="font-size: 1.1em; color: #f3ba2f;">¡Aún no hay participantes!</span>
-                <br>
-                Sé el primero en participar y ver tu entrada registrada aquí.
-                El primer ID de Transacción será la entrada #1.
-            </p>
-        `;
     
-    } else {
-        
-        bolsaElement.textContent = bolsaAcumulada; 
-        bolsaElement.style.fontSize = '3em';
+    /**
+     * Calcula la fecha del próximo Viernes a las 20:00 UTC (Cierre).
+     * @returns {Date}
+     */
+    function getNextClosingTime(now) {
+        const nextClose = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), CLOSING_HOUR, 0, 0, 0));
+        let daysToNextFriday = CLOSING_DAY - now.getUTCDay();
 
-        if (bolsaEstadoInicialElement) {
-            bolsaEstadoInicialElement.innerHTML = "(La **Bolsa** se acumulará con cada pago de 1 USDT. ¡Sé el primero en hacer que esta cifra crezca!)";
-            bolsaEstadoInicialElement.style.color = '#999';
+        if (daysToNextFriday < 0) {
+            daysToNextFriday += 7;
+        } else if (daysToNextFriday === 0 && now.getUTCHours() >= CLOSING_HOUR) {
+            daysToNextFriday += 7;
         }
-
-        potencialTitulo.textContent = `¡Potencial de Recompensa al Momento: ${recompensaGanador} USDT!`;
-        recompensaPotencialElement.textContent = `${recompensaGanador} USDT (Recompensa Potencial)`;
-
-
-        const ol = document.createElement('ol'); 
-        ol.style.paddingLeft = '20px';
-        
-        const totalParticipantesElement = document.createElement('p');
-        totalParticipantesElement.innerHTML = `<span class="highlight">Total de entradas: ${totalEntradas}</span>`; 
-        listaParticipantesElement.appendChild(totalParticipantesElement);
-        
-        entradas_txid.forEach(ID => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${ID}</strong>`; 
-            ol.appendChild(li);
-        });
-        
-        listaParticipantesElement.appendChild(ol);
+        nextClose.setUTCDate(nextClose.getUTCDate() + daysToNextFriday);
+        return nextClose;
     }
 
-    // Inicializa y comienza el temporizador
-    updateCountdown(); 
-    const countdownInterval = setInterval(updateCountdown, 1000);
+    /**
+     * Calcula la fecha del próximo Lunes a las 00:00 UTC (Apertura).
+     * @returns {Date}
+     */
+    function getNextOpeningTime(now) {
+        const nextOpen = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), OPENING_HOUR, 0, 0, 0));
+        let daysToNextMonday = OPENING_DAY - now.getUTCDay();
+        
+        if (daysToNextMonday < 0 || (daysToNextMonday === 0 && now.getUTCHours() >= OPENING_HOUR)) {
+            daysToNextMonday += 7;
+        }
+        nextOpen.setUTCDate(nextOpen.getUTCDate() + daysToNextMonday);
+        return nextOpen;
+    }
+
+    /**
+     * Determina el estado (Abierto/Cerrado) y a qué tiempo contar.
+     * @returns {{isOpen: boolean, targetTime: number, targetLabel: string}}
+     */
+    function calculateNextTarget() {
+        const now = new Date();
+        
+        const nextCloseTime = getNextClosingTime(now).getTime();
+        const nextOpenTime = getNextOpeningTime(now).getTime();
+        
+        if (nextOpenTime > nextCloseTime) {
+            return {
+                isOpen: true,
+                targetTime: nextCloseTime,
+                targetLabel: "Tiempo Restante para el Cierre de Donaciones" 
+            };
+        } else {
+            return {
+                isOpen: false,
+                targetTime: nextOpenTime,
+                targetLabel: "¡DONACIONES CERRADAS! Reabren en:" 
+            };
+        }
+    }
+
+    // --- FUNCIÓN DE ESTADO (CERRADO/ABIERTO) ---
+    function updatePozoState(status, distance) {
+        const isClosed = !status.isOpen;
+
+        document.querySelector('#cuenta-regresiva h2').textContent = status.targetLabel;
+
+        if (isClosed) {
+            paymentElements.style.display = 'none';
+            closedMessage.style.display = 'block';
+            countdownTimerElement.innerHTML = formatDistance(distance);
+            
+            closedMessage.querySelector('h3').textContent = '❌ Donaciones Cerradas ❌';
+            closedMessage.querySelector('p:nth-of-type(1)').textContent = 'La Donación Semanal reabrirá el lunes a las 00:00 UTC. Mientras tanto, estamos seleccionando al Participante Elegido.';
+            closedMessage.querySelector('p:nth-of-type(2)').textContent = 'Las donaciones realizadas a partir del viernes 20:00 UTC serán consideradas para el próximo evento semanal.';
+            
+            return true;
+        } else {
+            paymentElements.style.display = 'block';
+            closedMessage.style.display = 'none';
+            document.querySelector('#cuenta-regresiva h2').textContent = "Tiempo Restante para el Cierre de Donaciones"; 
+            return false;
+        }
+    }
+
+    // --- LÓGICA DE CUENTA REGRESIVA ---
+    function updateCountdown() {
+        const status = calculateNextTarget();
+        const now = new Date().getTime();
+        const distance = status.targetTime - now;
+
+        updatePozoState(status, distance);
+        
+        if (distance <= 0) {
+             clearInterval(window.countdownInterval);
+             loadDataAndInitialize();
+             return;
+        }
+
+        countdownTimerElement.innerHTML = formatDistance(distance);
+    }
+
+    // --- FUNCIÓN DE CARGA DE DATOS ASÍNCRONA ---
+    async function loadDataAndInitialize() {
+        try {
+            const response = await fetch(ENTRADAS_FILE);
+            if (!response.ok) {
+                 console.error(`Error al cargar ${ENTRADAS_FILE}. Usando 0 donaciones.`); // Mensaje corregido
+                 entradas_txid = [];
+            } else {
+                 entradas_txid = await response.json();
+                 if (!Array.isArray(entradas_txid)) {
+                    console.error("El archivo JSON no es un array válido. Usando 0 donaciones."); // Mensaje corregido
+                    entradas_txid = [];
+                 }
+            }
+        } catch (error) {
+            console.error("Fallo durante la operación de fetch/parseo:", error);
+            entradas_txid = [];
+        }
+        
+        totalEntradas = entradas_txid.length;
+        bolsaAcumulada = totalEntradas * DONACION_MINIMA; 
+        incentivoGanador = bolsaAcumulada * RECOMPENSA_PORCENTAJE;
+        
+        initializeApp();
+    }
+    
+    // --- FUNCIÓN PRINCIPAL DE INICIALIZACIÓN ---
+    function initializeApp() {
+        
+        if (resultadoPendienteElement && youtubeButtonElement) {
+            if (resultadoPendienteElement.style.display !== 'none') {
+                youtubeButtonElement.style.display = 'none';
+            } else {
+                youtubeButtonElement.style.display = 'inline-block';
+            }
+        }
+
+        // Muestra el total de donaciones (aunque la variable se llama totalEntradas)
+        if (totalEntradasHTMLElem) {
+             totalEntradasHTMLElem.textContent = totalEntradas;
+        }
+
+        // --- LÓGICA DE VISUALIZACIÓN DE LA BOLSA E INCENTIVO ---
+
+        if (totalEntradas === 0) {
+            
+            bolsaElement.textContent = formatBolsaAmount(0);
+            bolsaElement.style.fontSize = '3em'; 
+
+            potencialTitulo.textContent = `Potencial de Incentivo: ${formatBolsaAmount(DONACION_MINIMA * RECOMPENSA_PORCENTAJE)} USDT (con la primera donación)`;
+            recompensaPotencialElement.textContent = `${formatBolsaAmount(DONACION_MINIMA * RECOMPENSA_PORCENTAJE)} USDT (Incentivo Potencial Inicial)`;
+            
+            if (bolsaEstadoInicialElement) {
+                 bolsaEstadoInicialElement.innerHTML = "(¡Sé el **Primer Donante**! Tu aporte inicia el fondo de ayuda y convierte este evento en una realidad. El fondo crece con cada donación.)"; 
+                 bolsaEstadoInicialElement.style.color = '#00ff99';
+            }
+            
+            // CORRECCIÓN CRÍTICA DE MENSAJE
+            listaParticipantesElement.innerHTML = `
+                <p style="text-align: center;">
+                    <span class="highlight" style="font-size: 1.1em; color: #f3ba2f;">¡Aún no hay donaciones registradas!</span>
+                    <br>
+                    Sé el primero en donar y ver tu ID de Transacción registrado aquí como tu número de participación.
+                </p>
+            `;
+        } else {
+            
+            bolsaElement.textContent = formatBolsaAmount(bolsaAcumulada);
+            bolsaElement.style.fontSize = '3em';
+
+            if (bolsaEstadoInicialElement) {
+                bolsaEstadoInicialElement.innerHTML = "(El **Fondo Acumulado** crecerá con cada donación de 1 USDT.)"; 
+                bolsaEstadoInicialElement.style.color = '#999';
+            }
+
+            potencialTitulo.textContent = `¡Potencial de Incentivo al Momento: ${formatBolsaAmount(incentivoGanador)} USDT!`; 
+            recompensaPotencialElement.textContent = `${formatBolsaAmount(incentivoGanador)} USDT (Incentivo Potencial)`; 
+
+            // --- Generación de lista de Participantes (Donantes) ---
+            listaParticipantesElement.innerHTML = ''; 
+            const ol = document.createElement('ol'); 
+            ol.style.paddingLeft = '45px'; 
+            
+            entradas_txid.forEach(ID => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${ID}</strong>`; 
+                ol.appendChild(li);
+            });
+            listaParticipantesElement.appendChild(ol);
+        }
+
+        // Inicializa y comienza el temporizador
+        updateCountdown(); 
+        window.countdownInterval = setInterval(updateCountdown, 1000); 
+    }
+
+    // Comienza el proceso cargando primero los datos
+    loadDataAndInitialize();
 });

@@ -45,7 +45,7 @@ header {
 section {
     background-color: #2c2c44;
     padding: 25px;
-    margin-bottom: 25px;
+    margin-top: 25px; /* Usar solo margin-top para espaciado consistente */
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
@@ -56,9 +56,11 @@ section {
     font-weight: 700;
     color: #00ff99;
     padding: 15px 0;
-    border: 2px solid #3a3a5e;
+    border: 2px solid #00ff99; /* Borde del mismo color para destacar */
     border-radius: 8px;
     margin-bottom: 15px;
+    /* Añadir un sutil brillo para destacar */
+    box-shadow: 0 0 15px rgba(0, 255, 153, 0.4); 
 }
 
 .highlight {
@@ -75,7 +77,7 @@ section {
 /* --- Botones --- */
 .boton-pagar, .boton-youtube {
     display: block;
-    margin: 15px auto; /* Centra el bloque del botón */
+    margin: 15px auto;
     padding: 15px;
     width: 90%; 
     max-width: 400px; 
@@ -94,7 +96,7 @@ section {
 }
 
 .boton-pagar:hover {
-    background-color: #ffe082;
+    background-color: #ffd766; /* Color de hover más brillante que el anterior */
     transform: translateY(-2px);
     box-shadow: 0 6px #c29524;
 }
@@ -119,6 +121,8 @@ section {
     height: 200px;
     border: 4px solid #f3ba2f;
     border-radius: 12px;
+    /* Efecto "crypto" de sombreado interior */
+    box-shadow: inset 0 0 10px rgba(243, 186, 47, 0.5); 
 }
 
 .qr-code img {
@@ -131,7 +135,7 @@ section {
     padding: 15px;
     background-color: #3a3a5e;
     border-radius: 8px;
-    text-align: center; 
+    text-align: center;
 }
 
 .bar-chart {
@@ -167,20 +171,114 @@ section {
     border: 1px dashed #3a3a5e;
     max-height: 400px;
     overflow-y: auto;
+    overflow-x: auto;
     font-size: 0.9em;
-    text-align: left; /* La lista de IDs DEBE estar alineada a la izquierda */
+    text-align: left;
 }
 
 #lista-participantes ol {
     list-style-type: decimal;
+    margin: 0;
 }
 
 #lista-participantes li {
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 5px 0;
     border-bottom: 1px dotted #3a3a5e;
-    overflow-wrap: break-word;
+    white-space: nowrap; 
 }
+
+/*
+--- ESTILOS BASE PARA REDES SOCIALES ---
+*/
+
+#redes-sociales {
+    padding: 25px;
+    margin-top: 25px;
+    background-color: #2c2c44;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    /* Estilos generales y CLAVE: la forma circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* <-- Esto asegura la forma circular */
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.social-links a i {
+    /* Estilos del ícono */
+    color: #ffffff; 
+    font-size: 1.8em; 
+    transition: color 0.3s;
+}
+
+/* --- ASIGNACIÓN DE COLORES ESPECÍFICOS (CORREGIDO) --- */
+
+/* Nota: Usamos la pseudo-clase ':has()' (si tu navegador lo soporta) para apuntar al 'a' que contiene el 'i'. 
+   Si ':has()' no funciona, usa la versión alternativa simple que está comentada abajo. */
+
+/* YouTube: Rojo */
+.social-links a:has(.fa-youtube) { 
+    background-color: #ff0000;
+}
+/* X/Twitter: Negro */
+.social-links a:has(.fa-twitter) {
+    background-color: #1a1a1a; 
+}
+
+/* Discord: Violeta (usando fa-comments como sustituto en V4) */
+.social-links a:has(.fa-comments) { 
+    background-color: #7289da;
+}
+
+/* Telegram: Azul/Celeste */
+.social-links a:has(.fa-telegram) {
+    background-color: #0088cc;
+}
+
+/* WhatsApp: Verde */
+.social-links a:has(.fa-whatsapp) {
+    background-color: #25d366;
+}
+
+
+/*
+Si el navegador que usas (especialmente si es antiguo) no soporta ':has()', usa estos estilos en su lugar:
+
+.social-links a[href*="youtube.com"] { background-color: #ff0000; }
+.social-links a[href*="twitter.com"] { background-color: #1a1a1a; }
+.social-links a[href*="discord.com"] { background-color: #7289da; }
+.social-links a[href*="telegram.org"] { background-color: #0088cc; }
+.social-links a[href*="whatsapp.com"] { background-color: #25d366; }
+
+*/
+
+/* --- EFECTO HOVER --- */
+
+.social-links a:hover {
+    /* Hover general: Aumenta el tamaño, pero mantiene la forma circular y el color */
+    transform: scale(1.15); 
+}
+
+.social-links a:hover i {
+    /* Hover del ícono: Se mantiene el color blanco del ícono para contraste */
+    color: #ffffff; 
+}
+
 
 /* --- Footer --- */
 footer {
