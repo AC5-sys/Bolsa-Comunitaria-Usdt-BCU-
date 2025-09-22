@@ -3,56 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>¡Volvemos Pronto! | Bolsa Comunitaria USDT</title>
-    <link rel="stylesheet" href="style.css"> 
+    <title>Bolsa Comunitaria USDT | Accede a una Recompensa</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-</head>
-<body style="display: flex; justify-content: center; align-items: center; min-height: 100vh; flex-direction: column;">
     
-    <header style="padding-top: 0; margin-bottom: 20px;">
-        <h1 style="color: #00ff99; font-size: 3em; margin-bottom: 10px;">
-            🔨 ¡En Mantenimiento!
-        </h1>
-        <p style="color: #f3ba2f; font-size: 1.2em; font-weight: 700; text-align: center; max-width: 600px;">
-            Estamos optimizando la Bolsa Comunitaria para dar comienzo al evento.
-        </p>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+    <header>
+        <div>
+            <h1>Bolsa Comunitaria USDT ✨</h1>
+            <p>Tu oportunidad de acceder a una gran recompensa con solo 1 USDT.</p>
+        </div>
     </header>
 
-    <main style="max-width: 600px; padding: 0 20px;">
-        <section style="padding: 40px;">
-            
-            <h2 style="color: #ffffff; font-size: 1.8em; margin-bottom: 20px;">
-                Actualizando la Plataforma
-            </h2>
-            
-            <p style="color: #cccccc; margin-bottom: 30px;">
-                Nuestro equipo está trabajando duro para implementar las últimas mejoras y asegurar la **transparencia y seguridad** de todas las entradas. 
-            </p>
-            
-            <div class="pozo-box" style="font-size: 1.8em; color: #f3ba2f; border-color: #f3ba2f;">
-                Volvemos muy pronto...
+    <main>
+        <section id="pozo-acumulado">
+            <h2>Bolsa Acumulada</h2>
+            <div class="pozo-box">
+                <span id="pozo-cantidad">0.00</span> USDT
             </div>
             
-            <p style="color: #cccccc;">
-                Agradecemos tu paciencia. El sistema estará en línea antes del próximo cierre semanal. ¡Prepárate para participar!
+            <p id="bolsa-estado-inicial" class="small-text">
+                (La **Bolsa** se acumulará con cada pago de 1 USDT.)
             </p>
-            
-            <a href="links.html" class="boton-pagar" style="margin-top: 30px; background-color: #f3ba2f; color: #1a1a2e;">
-                Conéctate con Nosotros en Redes
-            </a>
+            <p class="small-text">
+                (El 50% de la **Bolsa** acumulada pertenecerá al **Participante Elegido** el resto se destina al sostenimiento de la web además de proyectos futuros)
+            </p>
 
+            <div class="grafico-explicativo">
+                <h3 id="potencial-titulo">Potencial de Recompensa: Calculando...</h3> 
+                
+                <p>Cada pago de **1 USDT** te da una entrada para ser considerado; cuantos más pagos realices, más oportunidades tendrás de ser "El Elegido".</p> 
+                
+                <div class="bar-chart">
+                    <div class="bar bar-inversion">1 USDT (Costo por Participación)</div>
+                    <div id="recompensa-potencial" class="bar bar-ganancia">?? USDT (Recompensa Potencial)</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cuenta-regresiva">
+            <h2>Tiempo Restante para el Cierre Semanal</h2>
+            <div id="countdown-timer" class="pozo-box">
+                --d --h --m --s
+            </div>
+            <p class="small-text highlight">El cierre es automático: todos los viernes a las 20:00 UTC.</p>
+        </section>
+
+        <section id="participar">
+            <h2>Cómo Participar y Bases del Evento</h2>
+            <div class="participar-box">
+                
+                <div id="closed-message" style="display: none;">
+                    <h3 class="highlight" style="font-size: 1.5em;">❌ Participación Cerrada ❌</h3>
+                    <p>¿Quién será el elegido? paciencia… estamos seleccionando al **Participante Elegido** y podrías ser tú, los resultados se publicarán el domingo.</p>
+                    <p class="small-text">Los aportes realizados a partir de ahora no serán considerados, espera a que abra la **Bolsa** para volver a participar.</p>
+                </div>
+
+                <div id="payment-elements">
+                    <p>Haz clic en el botón o escanea el QR para acceder al **pago de 1 USDT** a través de Binance Pay.</p>
+                    
+                    <a href="https://s.binance.com/3KgUzgQP" target="_blank" class="boton-pagar">
+                        Pagar 1 USDT con Binance Pay
+                    </a>
+                    
+                    <div class="qr-code">
+                        <img src="qr-binance.png" alt="Código QR de Binance Pay para 1 USDT CriptoEventos" style="width: 100%; height: 100%; border-radius: 8px;">
+                    </div>
+
+                    <p class="small-text">Cada pago genera un **Número de Transacción** único que se convierte en una entrada a la **Bolsa**.</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="transparencia">
+            <h2>Transparencia y Entradas</h2>
+            <div class="transparencia-box">
+                <p>A la fecha, se han registrado <span id="total-entradas-html" class="highlight">0</span> entradas.</p>
+                <p>Cada participación de 1 USDT genera un **ID de Transacción** único. Aseguramos la transparencia de esta forma:</p>
+                
+                <ol style="padding-left: 25px; margin-top: 10px; text-align: left;">
+                    <li>Verifica tu ID: Inicia sesión en tu cuenta de Binance, ve a tu **Historial de Pagos (Binance Pay)** y busca la transacción de 1 USDT.</li>
+                    <li>Compara: Compara el **ID de Transacción** de tu historial con uno de los IDs listados a continuación (mostramos una versión truncada para mejorar la legibilidad).</li>
+                    <li>¡Tu Entrada es Válida! Si el código coincide, tu entrada está registrada correctamente.</li>
+                </ol>
+                <div id="lista-participantes">
+                </div>
+            </div>
+        </section>
+
+        <section id="resultados">
+            <h2>Selección del Participante Elegido</h2>
+            <div class="resultados-box">
+                <p>El **Participante Elegido** será seleccionado semanalmente después de la hora de cierre del viernes. El video del resultado en vivo y sin cortes se publicará el domingo.</p>
+                
+                <div id="ganador">
+                    
+                    <p id="resultado-pendiente">Aquí se publicará el resultado.</p>
+                    
+                    <a href="https://www.youtube.com/watch?v=3TWg_pUbUGw&feature=youtu.be" target="_blank" id="youtube-button-publicado" class="boton-youtube"> 
+                        🎥 Ver Video de la Selección (Domingo)
+                    </a> 
+                    
+                </div>
+    
+</div>
+            </div>
+        </section>
+
+        <section id="ideas">
+            <h2>📢 ¿Tienes una Idea o Propuesta?</h2>
+            <div class="ideas-box">
+                <p>Valoramos la opinión de la comunidad. Si tienes una idea para mejorar la **Bolsa**, un proyecto futuro o cualquier sugerencia, envíanosla directamente a través de nuestro formulario.</p>
+                
+                <iframe 
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSfiBe3jBu1HxZpArTIsQ5mngiMi1YIJIFu1Pw7PYOHRB-f_3A/viewform?embedded=true" 
+                    width="100%" 
+                    height="500" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0">
+                    Cargando…
+                </iframe>
+            </div>
+        </section>
+        
+        <section id="redes-sociales">
+            <h2>Nuestra Comunidad</h2>
+            <div class="social-links">
+                <a href="https://www.youtube.com/watch?v=3TWg_pUbUGw&feature=youtu.be" target="_blank" aria-label="YouTube">
+                    <i class="fa fa-youtube"></i>
+                </a>
+                <a href="https://x.com/CriptoPampa?t=IVZrijV8kZA2qGeEx_Jlpw&s=09" target="_blank" aria-label="X / Twitter">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="https://discord.com/invite/tETxzTVn" target="_blank" aria-label="Discord">
+                    <i class="fa fa-comments"></i>
+                </a>
+                <a href="https://t.me/+gbwbx_NpbvllYmVh" target="_blank" aria-label="Telegram">
+                    <i class="fa fa-telegram"></i>
+                </a>
+                <a href="https://chat.whatsapp.com/CsC0DGQdvBDKQIc15TDrM6?mode=ems_share_t" target="_blank" aria-label="WhatsApp">
+                    <i class="fa fa-whatsapp"></i>
+                </a>
+            </div>
         </section>
     </main>
-    
+
     <footer>
         <p>Proyecto en fase beta. © 2025 | Transparencia garantizada en la Blockchain.</p>
     </footer>
-    
+
+    <script src="script.js"></script>
 </body>
 </html>
-
