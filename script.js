@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             closedMessage.querySelector('h3').textContent = '❌ Donaciones Cerradas ❌';
             closedMessage.querySelector('p:nth-of-type(1)').textContent = 'La Donación Semanal reabrirá el lunes a las 00:00 UTC. Mientras tanto, estamos seleccionando al Participante Elegido.';
-            closedMessage.querySelector('p:nth-of-type(2)').textContent = 'Las donaciones realizadas a partir del viernes 20:00 UTC serán consideradas para el próximo evento semanal.';
+            closedMessage.querySelector('p:nth-of-type(2)').textContent = 'Las donaciones realizadas a partir del viernes 20:00 UTC serán consideradas "sin incentivo" hasta que vuelva a abrir.';
             
             return true;
         } else {
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
             recompensaPotencialElement.textContent = `${formatBolsaAmount(DONACION_MINIMA * RECOMPENSA_PORCENTAJE)} USDT (Incentivo Potencial Inicial)`;
             
             if (bolsaEstadoInicialElement) {
-                 bolsaEstadoInicialElement.innerHTML = "(¡Sé el **Primer Donante**! Tu aporte inicia el fondo de ayuda y convierte este evento en una realidad. El fondo crece con cada donación.)"; 
+                 bolsaEstadoInicialElement.innerHTML = "(¡Sé el **Primero en dar**! Tu aporte inicia el fondo de ayuda y convierte este evento en una realidad. El fondo crece con cada donación.)"; 
                  bolsaEstadoInicialElement.style.color = '#00ff99';
             }
             

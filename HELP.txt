@@ -1,0 +1,86 @@
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+-- VIDEO YOUTUBE RESULTADO --
+UBICACION = index.html
+
+DURANTE LA SEMANA:
+
+<div id="ganador">
+                    
+                    <p id="resultado-pendiente">Aquí se publicará el resultado.</p>
+                    
+                    <a href="TU_LINK_REAL_DE_YOUTUBE_AQUI" target="_blank" id="youtube-button-publicado" class="boton-youtube"> 
+                        🎥 Ver Video de la Selección (Domingo)
+                    </a> 
+                    
+                </div>
+    
+</div>
+
+EL DOMINGO:
+
+<div id="ganador">
+                    
+                    <p id="resultado-pendiente" style="display: none;">Aquí se publicará el resultado.</p>
+                    
+                    <a href="LINK_DEL_VIDEO_SEMANAL" target="_blank" id="youtube-button-publicado" class="boton-youtube" style="display: block;"> 
+                        🎥 Ver Video de la Selección (Domingo)
+                    </a> 
+                    
+                </div>
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+-- PRUEBA DEL RELOJ --
+UBICACION = script.js
+
+NORMAL MODE: 
+
+// --- FUNCIÓN DE CÁLCULO DE FECHA DE CIERRE ---
+    function getNextClosingTime() {
+        const now = new Date();
+        const date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
+        
+        let daysToAdd = (CLOSING_DAY - date.getUTCDay());
+        
+        if (date.getUTCDay() === CLOSING_DAY && date.getUTCHours() >= CLOSING_HOUR) {
+            daysToAdd += 7; 
+        } else if (daysToAdd < 0) {
+            daysToAdd += 7; 
+        }
+
+        date.setUTCDate(date.getUTCDate() + daysToAdd);
+        date.setUTCHours(CLOSING_HOUR, 0, 0, 0);
+        
+        return date.getTime();
+    }
+
+    TEST MODE:
+
+// --- FUNCIÓN DE CÁLCULO DE FECHA DE CIERRE ---
+    function getNextClosingTime() {
+    const now = new Date();
+        // Establece el objetivo en 60 segundos *en el pasado* desde ahora.
+        const pastTime = now.getTime() - (60 * 1000); 
+        return pastTime; 
+    }
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+LINK DE BINANCE PAY 17/09/2025
+UBICACION main.html
+
+<a href="https://s.binance.com/3KgUzgQP" target="_blank" class="boton-pagar">
+    Pagar 1 USDT con Binance Pay
+</a>
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+iniciar server local--
+python -m http.server
+
+http://localhost:8000
